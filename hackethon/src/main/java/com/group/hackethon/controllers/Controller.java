@@ -23,11 +23,7 @@ public class Controller {
 
     @RequestMapping(value="/requestcarbonfootprint", method= RequestMethod.GET)
     public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination) throws JSONException {
-        double originX = Double.valueOf(origin.split(",")[0]);
-        double originY = Double.valueOf(origin.split(",")[1]);
-        double destX = Double.valueOf(destination.split(",")[0]);
-        double destY = Double.valueOf(destination.split(",")[1]);
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+originX+","+originY+"&destinations="+destX+","+destY+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+origin+"&destinations="+destination+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
         System.out.println(url);
         String response = webClient.build().get().uri(url)
                 .retrieve().toEntity(String.class).block().getBody();
