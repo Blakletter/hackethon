@@ -21,6 +21,7 @@ public class Controller {
     @Autowired
     private WebClient.Builder webClient;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/requestcarbonfootprint", method= RequestMethod.GET)
     public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination) throws JSONException {
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+origin+"&destinations="+destination+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
