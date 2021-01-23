@@ -11,10 +11,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -24,19 +21,12 @@ public class Controller {
     @Autowired
     private WebClient.Builder webClient;
 
-    @RequestMapping(value="/requestcarbonfootprint", method= RequestMethod.POST)
-    public ResponseEntity<Response> footprint(@RequestBody(required = false) Request body) throws JSONException {
-        //Default trip if none is given
-        double originX=44.76117;
-        double originY=-93.306;
-        double destX = 44.77;
-        double destY = -93.49;
-        if (body!=null)  {
-            originX=body.getOriginX();
-            originY=body.getOriginY();
-            destX = body.getDestX();
-            destY = body.getDestY();
-        }
+    @RequestMapping(value="/requestcarbonfootprint", method= RequestMethod.GET)
+    public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination) throws JSONException {
+        double originX = Double.valueOf(origin.split(",")[0]);
+        double originY = Double.valueOf(origin.split(",")[1]);
+        double destX = Double.valueOf(destination.split(",")[0]);
+        double destY = Double.valueOf(destination.split(",")[1]);
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+originX+","+originY+"&destinations="+destX+","+destY+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
         System.out.println(url);
         String response = webClient.build().get().uri(url)
