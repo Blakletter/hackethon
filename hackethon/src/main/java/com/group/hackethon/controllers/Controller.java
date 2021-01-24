@@ -23,12 +23,13 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/requestcarbonfootprint", method= RequestMethod.GET)
-    public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination) throws JSONException {
+    public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination) {
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+origin+"&destinations="+destination+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
         System.out.println(url);
         String response = webClient.build().get().uri(url)
                 .retrieve().toEntity(String.class).block().getBody();
         System.out.println(response);
+
         JsonObject data = new Gson().fromJson(response, JsonObject.class);
         JsonObject parent = data.get("rows").getAsJsonArray().get(0).getAsJsonObject().get("elements").getAsJsonArray().get(0).getAsJsonObject();
         String distanceS = parent.get("distance").getAsJsonObject().get("value").toString();
@@ -44,7 +45,7 @@ public class Controller {
         double[] co2 = new double[mpgs.length];
         double gallons;
         for (int i =0; i<mpgs.length; i++) {
-            co2[i] = (distance/mpgs[i])*.008887;
+            co2[i] = (distance/mpgs[i])*.008887*907.185;
         }
         return ResponseEntity.status(HttpStatus.OK).body(new Response(distanceText, timeText, co2[0], co2[1], co2[2], co2[3],co2[4], co2[5], co2[6]));
     }

@@ -6,18 +6,18 @@ public class Response {
     private double car;
     private double bus;
     private double airplane;
-    private double passengerTrain;
+    private double train;
     private double motorcycle;
     private double hybrid;
     private double running;
 
-    public Response(String distance, String time, double car, double bus, double airplane, double passengerTrain, double motorcycle, double hybrid, double running) {
+    public Response(String distance, String time, double car, double bus, double airplane, double train, double motorcycle, double hybrid, double running) {
         this.distance = distance;
         this.time = time;
         this.car = car;
         this.bus = bus;
         this.airplane = airplane;
-        this.passengerTrain = passengerTrain;
+        this.train = train;
         this.motorcycle = motorcycle;
         this.hybrid = hybrid;
         this.running = running;
@@ -63,12 +63,12 @@ public class Response {
         this.airplane = airplane;
     }
 
-    public double getPassengerTrain() {
-        return passengerTrain;
+    public double getTrain() {
+        return train;
     }
 
-    public void setPassengerTrain(double passengerTrain) {
-        this.passengerTrain = passengerTrain;
+    public void setTrain(double train) {
+        this.train = train;
     }
 
     public double getMotorcycle() {
