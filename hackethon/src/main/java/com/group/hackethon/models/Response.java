@@ -10,8 +10,9 @@ public class Response {
     private double motorcycle;
     private double hybrid;
     private double running;
+    private double miles;
 
-    public Response(String distance, String time, double car, double bus, double airplane, double train, double motorcycle, double hybrid, double running) {
+    public Response(String distance, String time, double car, double bus, double airplane, double train, double motorcycle, double hybrid, double running, double miles) {
         this.distance = distance;
         this.time = time;
         this.car = car;
@@ -21,6 +22,15 @@ public class Response {
         this.motorcycle = motorcycle;
         this.hybrid = hybrid;
         this.running = running;
+        this.miles = miles;
+    }
+
+    public double getMiles() {
+        return miles;
+    }
+
+    public void setMiles(double miles) {
+        this.miles = miles;
     }
 
     public String getDistance() {

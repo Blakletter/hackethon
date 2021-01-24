@@ -23,8 +23,15 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value="/requestcarbonfootprint", method= RequestMethod.GET)
-    public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination) {
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+origin+"&destinations="+destination+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
+    public ResponseEntity<Response> footprint(@RequestParam(name="origin") String origin, @RequestParam(name="destination") String destination, @RequestParam(name="mode", required = false) String mode) {
+        String method;
+        if (mode==null) {
+            method = "";
+        } else {
+            method="&mode="+mode;
+        }
+
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+origin+"&destinations="+destination+method+"&key=AIzaSyATB_BqUvfTNkWx2HEBSuUF0AolG_d88Lg";
         System.out.println(url);
         String response = webClient.build().get().uri(url)
                 .retrieve().toEntity(String.class).block().getBody();
@@ -47,6 +54,6 @@ public class Controller {
         for (int i =0; i<mpgs.length; i++) {
             co2[i] = (distance/mpgs[i])*.008887*907.185;
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new Response(distanceText, timeText, co2[0], co2[1], co2[2], co2[3],co2[4], co2[5], co2[6]));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(distanceText, timeText, co2[0], co2[1], co2[2], co2[3],co2[4], co2[5], co2[6], distance));
     }
 }
